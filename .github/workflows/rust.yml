@@ -3,10 +3,10 @@ name: Rust CI
 on:
   push:
     paths:
-      - '**'
+      - 'rust/**'
   pull_request:
     paths:
-      - '**'
+      - 'rust/**'
 
 jobs:
   build:
@@ -27,21 +27,25 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            target
+            rust/target
             ~/.cargo/registry
             ~/.cargo/git
-          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('rust/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-cargo-registry-
 
       - name: Build
+        working-directory: ./rust
         run: cargo build --verbose
 
       - name: Run Tests
+        working-directory: ./rust
         run: cargo test --verbose
 
       - name: Check Formatting
+        working-directory: ./rust
         run: cargo fmt -- --check
 
       - name: Lint with Clippy
+        working-directory: ./rust
         run: cargo clippy -- -D warnings
