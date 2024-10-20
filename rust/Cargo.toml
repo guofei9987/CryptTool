@@ -1,0 +1,15 @@
+[package]
+name = "CryptTool"
+version = "0.1.1"
+edition = "2021"
+authors = ["Guo Fei <me@guofei.site>"]
+description = "A versatile and efficient cryptography library implemented in Rust"
+license = "MIT"
+repository = "https://github.com/guofei9987/CryptTool"
+keywords = ["LCG"]
+
+
+[lib]
+name = "crypt_tool"
+path = "src/lib.rs"
+
