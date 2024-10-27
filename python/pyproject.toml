@@ -1,42 +1,18 @@
 [build-system]
-requires = ["maturin>=0.12,<0.18"]
-build-backend = "maturin"
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
-name = "python_with_rust"
-version = "0.1.5"
+name = "crypt_tool"
+version = "0.1.1"
 authors = [
     { name = "Guo Fei", email = "me@guofei.site" }
 ]
-description = "Python 调用 Rust 的示例"
+description = "A versatile and efficient cryptography library implemented in Python"
 readme = "README.md"
 license = { text = "MIT" }
-homepage = "https://github.com/guofei9987/python_with_rust/"
-repository = "https://github.com/guofei9987/python_with_rust/"
-keywords = ["rust", "pyo3", "python", "performance", "hybrid"]
-classifiers = [
-    "Programming Language :: Rust",
-    "Programming Language :: Python :: Implementation :: CPython",
-    "Programming Language :: Python :: Implementation :: PyPy",
-]
-requires-python = ">=3.8"
-dynamic = ["version"]
+homepage = "https://github.com/guofei9987/CryptTool"
+repository = "https://github.com/guofei9987/CryptTool"
+
+
 [dependencies]
-#Python 依赖项
-#例如：
-#numpy = ">=1.20"
-#setuptools = "*"
-#setuptools-rust = "*"
-
-#[package.metadata.maturin]
-#requires-dist = ["numpy>=1.20"] # 需要的 Python 依赖
-
-#指定 Rust 项目的路径：
-#[package.metadata.maturin]
-#cargo-extra-args = ["--manifest-path", "my_rust_project1/Cargo.toml"]
-
-
-[tool.maturin]
-features = ["pyo3/extension-module"]
-
-
