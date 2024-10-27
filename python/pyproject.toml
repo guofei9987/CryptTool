@@ -4,13 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "crypt_tool"
-version = "0.1.1"
+version = "0.1.2"
 authors = [
     { name = "Guo Fei", email = "me@guofei.site" }
 ]
 description = "A versatile and efficient cryptography library implemented in Python"
 readme = "README.md"
 license = { text = "MIT" }
+
+
+[project.urls]
 homepage = "https://github.com/guofei9987/CryptTool"
 repository = "https://github.com/guofei9987/CryptTool"
 
