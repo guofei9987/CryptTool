@@ -48,21 +48,23 @@ class TestCryptTool(unittest.TestCase):
     def test_cipher_encode_decode(self):
         cipher = XorCipher(b"password1")
         data = bytes([0, 255, 128, 64, 32, 16, 8, 4, 2, 1])
-        encoded = cipher.encode(data)
-        decoded = cipher.decode(encoded)
-        self.assertEqual(data, decoded)
+        data_encodes = bytes([221, 103, 151, 202, 65, 92, 51, 90, 39, 65])
 
-    def test_data_bin_conversion(self):
-        converter = BytesBitsConverter()
-        bytes_data = bytes([0, 1, 2, 255])
-        bits = converter.bytes_to_bits(bytes_data)
-        self.assertEqual(bits, [
-            0, 0, 0, 0, 0, 0, 0, 0,  # 0
-            0, 0, 0, 0, 0, 0, 0, 1,  # 1
-            0, 0, 0, 0, 0, 0, 1, 0,  # 2
-            1, 1, 1, 1, 1, 1, 1, 1  # 255
-        ])
-        self.assertEqual(converter.bits_to_bytes(bits), bytes_data)
+        self.assertEqual(data, cipher.decode(data_encodes))
+        self.assertEqual(cipher.encode(data), data_encodes)
+
+
+def test_data_bin_conversion(self):
+    converter = BytesBitsConverter()
+    bytes_data = bytes([0, 1, 2, 255])
+    bits = converter.bytes_to_bits(bytes_data)
+    self.assertEqual(bits, [
+        0, 0, 0, 0, 0, 0, 0, 0,  # 0
+        0, 0, 0, 0, 0, 0, 0, 1,  # 1
+        0, 0, 0, 0, 0, 0, 1, 0,  # 2
+        1, 1, 1, 1, 1, 1, 1, 1  # 255
+    ])
+    self.assertEqual(converter.bits_to_bytes(bits), bytes_data)
 
 
 if __name__ == "__main__":

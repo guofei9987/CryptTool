@@ -86,11 +86,9 @@ mod tests {
     fn test_cipher_encode_decode() {
         let cipher = XorCipher::new("password1".as_bytes());
         let data = vec![0, 255, 128, 64, 32, 16, 8, 4, 2, 1];
-        let encoded = cipher.encode(&data);
-        let decoded = cipher.decode(&encoded);
-        assert_eq!(data, decoded);
-        let encoded1 = cipher.encode(&data);
-        assert_eq!(encoded1, encoded);
+        let data_encodes = vec![221, 103, 151, 202, 65, 92, 51, 90, 39, 65];
+        assert_eq!(data, cipher.decode(&data_encodes));
+        assert_eq!(cipher.encode(&data), data_encodes);
     }
 
     #[test]

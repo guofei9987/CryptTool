@@ -1,0 +1,41 @@
+name: Python CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 检出代码库
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      # 设置 Python 版本
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      # 安装依赖项
+      - name: Install dependencies
+        run: |
+          cd CryptTools/python
+#          pip install -r requirements.txt
+          pip install pytest
+
+      # 安装当前库
+      - name: Install the package
+        run: |
+          cd CryptTools/python
+          pip install -e .
+
+      # 运行测试
+      - name: Run tests
+        run: |
+          cd CryptTools/python
+          pytest tests/tests.py --maxfail=5 --disable-warnings
