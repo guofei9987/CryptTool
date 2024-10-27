@@ -1,11 +1,9 @@
 #[cfg(test)]
 mod tests {
-    use crypt_tool::{XorCipher, BytesBitsConverter, LinearCongruentialGenerator, system_random};
-
+    use crypt_tool::{system_random, BytesBitsConverter, LinearCongruentialGenerator, XorCipher};
 
     use std::thread;
     use std::time::Duration;
-
 
     #[test]
     fn test_get_true_rand() {
@@ -15,7 +13,6 @@ mod tests {
         // 由于依赖于系统时间，通常不相等
         assert_ne!(rand1, rand2);
     }
-
 
     #[test]
     fn test_rnd_gen_u8() {
@@ -36,7 +33,6 @@ mod tests {
         assert_eq!(generated_u8_1, generated_u8_4);
     }
 
-
     #[test]
     fn test_rnd_zero_seed() {
         // 测试种子为全零的情况
@@ -47,7 +43,6 @@ mod tests {
         let second = rnd.generate();
         assert_ne!(first, second);
     }
-
 
     #[test]
     fn test_rnd_no_seed() {
@@ -60,14 +55,12 @@ mod tests {
         assert_ne!(first, second);
     }
 
-
     #[test]
     fn test_generate_random_string_length() {
         let mut rnd = LinearCongruentialGenerator::from_seed("password2".as_bytes());
         let random_str = rnd.generate_random_string(50);
         assert_eq!(random_str.len(), 50);
     }
-
 
     #[test]
     fn test_random_string() {
@@ -80,7 +73,6 @@ mod tests {
         assert_eq!(str1, str2);
     }
 
-
     #[test]
     fn test_random_string2() {
         let mut rnd = LinearCongruentialGenerator::from_seed("密码".as_bytes());
@@ -89,7 +81,6 @@ mod tests {
         println!("生成随机字符：{}", res1);
         assert_eq!(res1, "xOHsZo7o7Sfe9eTOJsly");
     }
-
 
     #[test]
     fn test_cipher_encode_decode() {

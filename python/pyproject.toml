@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
+requires = ["setuptools>=42", "wheel", "build"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -11,6 +11,7 @@ authors = [
 description = "A versatile and efficient cryptography library implemented in Python"
 readme = "README.md"
 license = { text = "MIT" }
+requires-python = ">=3.6"
 
 
 [project.urls]

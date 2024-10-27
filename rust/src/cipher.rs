@@ -6,7 +6,9 @@ pub struct XorCipher {
 
 impl XorCipher {
     pub fn new(pwd: &[u8]) -> Self {
-        Self { rng: LinearCongruentialGenerator::from_seed(pwd) }
+        Self {
+            rng: LinearCongruentialGenerator::from_seed(pwd),
+        }
     }
 
     pub fn apply_xor(&self, data: &[u8]) -> Vec<u8> {

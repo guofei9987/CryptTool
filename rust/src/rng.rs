@@ -15,11 +15,19 @@ impl LinearCongruentialGenerator {
         let a: u32 = 1664525;
         let c: u32 = 1013904223;
         let m: u32 = 2u32 << 30;
-        Self { a, c, m_mask: m - 1, seed: state, state }
+        Self {
+            a,
+            c,
+            m_mask: m - 1,
+            seed: state,
+            state,
+        }
     }
 
     fn cal_state(seeds: &[u8]) -> u32 {
-        seeds.iter().fold(0u32, |acc, &byte| acc.wrapping_mul(31).wrapping_add(byte as u32))
+        seeds.iter().fold(0u32, |acc, &byte| {
+            acc.wrapping_mul(31).wrapping_add(byte as u32)
+        })
     }
 
     pub fn from_seed(seed: &[u8]) -> Self {
@@ -39,7 +47,6 @@ impl LinearCongruentialGenerator {
         (self.generate() % 256) as u8
     }
 
-
     pub fn rand_range(&mut self, range: Range<usize>) -> usize {
         let Range { start, end } = range;
         (self.generate() as usize) % (end - start) + start
@@ -48,12 +55,11 @@ impl LinearCongruentialGenerator {
     pub fn generate_random_string(&mut self, len: usize) -> String {
         const CHARSET: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-        (0..len).map(|_| {
-            CHARSET[self.rand_range(0..CHARSET.len())] as char
-        }).collect::<String>()
+        (0..len)
+            .map(|_| CHARSET[self.rand_range(0..CHARSET.len())] as char)
+            .collect::<String>()
     }
 }
-
 
 pub fn system_random() -> u32 {
     // 根据系统时间来生成随机数
