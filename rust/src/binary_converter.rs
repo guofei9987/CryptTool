@@ -4,6 +4,12 @@ pub struct BytesBitsConverter {
     byte_to_bits_map: [[u8; 8]; 256],
 }
 
+impl Default for BytesBitsConverter {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl BytesBitsConverter {
     pub fn new() -> Self {
         Self {
