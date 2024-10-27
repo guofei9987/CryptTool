@@ -24,18 +24,18 @@ jobs:
       # 安装依赖项
       - name: Install dependencies
         run: |
-          cd CryptTools/python
+          cd ./python
           pip install -r requirements.txt
           pip install pytest
 
       # 安装当前库
       - name: Install the package
         run: |
-          cd CryptTools/python
+          cd ./python
           pip install -e .
 
       # 运行测试
       - name: Run tests
         run: |
-          cd CryptTools/python
+          cd ./python
           pytest tests/tests.py --maxfail=5 --disable-warnings
