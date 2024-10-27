@@ -54,17 +54,17 @@ class TestCryptTool(unittest.TestCase):
         self.assertEqual(cipher.encode(data), data_encodes)
 
 
-def test_data_bin_conversion(self):
-    converter = BytesBitsConverter()
-    bytes_data = bytes([0, 1, 2, 255])
-    bits = converter.bytes_to_bits(bytes_data)
-    self.assertEqual(bits, [
-        0, 0, 0, 0, 0, 0, 0, 0,  # 0
-        0, 0, 0, 0, 0, 0, 0, 1,  # 1
-        0, 0, 0, 0, 0, 0, 1, 0,  # 2
-        1, 1, 1, 1, 1, 1, 1, 1  # 255
-    ])
-    self.assertEqual(converter.bits_to_bytes(bits), bytes_data)
+    def test_data_bin_conversion(self):
+        converter = BytesBitsConverter()
+        bytes_data = bytes([0, 1, 2, 255])
+        bits = converter.bytes_to_bits(bytes_data)
+        self.assertEqual(bits, [
+            0, 0, 0, 0, 0, 0, 0, 0,  # 0
+            0, 0, 0, 0, 0, 0, 0, 1,  # 1
+            0, 0, 0, 0, 0, 0, 1, 0,  # 2
+            1, 1, 1, 1, 1, 1, 1, 1  # 255
+        ])
+        self.assertEqual(converter.bits_to_bytes(bits), bytes_data)
 
 
 if __name__ == "__main__":
