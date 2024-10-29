@@ -13,3 +13,11 @@ keywords = ["LCG"]
 name = "crypt_tool"
 path = "src/lib.rs"
 
+[dev-dependencies]
+rand = "0.8"
+criterion = "0.5.1"
+
+
+[[bench]]
+name = "bench_rng"
+harness = false
