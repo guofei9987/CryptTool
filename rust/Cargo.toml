@@ -1,6 +1,6 @@
 [package]
 name = "CryptTool"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = ["Guo Fei <me@guofei.site>"]
 description = "A versatile and efficient cryptography library implemented in Rust"
