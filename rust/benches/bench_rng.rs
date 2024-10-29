@@ -1,8 +1,8 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use rand::Rng;
+use crypt_tool::{system_random, LinearCongruentialGenerator};
 use rand::rngs::StdRng;
+use rand::Rng;
 use rand::SeedableRng;
-use crypt_tool::{LinearCongruentialGenerator, system_random};
 
 // 使用 LinearCongruentialGenerator 生成随机数
 fn bench_custom_rng(c: &mut Criterion) {
