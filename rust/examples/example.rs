@@ -1,4 +1,4 @@
-use crypt_tool::{system_random, BytesBitsConverter, LCG, XorCipher};
+use crypt_tool::{system_random, BytesBitsConverter, XorCipher, LCG};
 fn example_random() {
     let rand = system_random();
     println!("A random number = {}", rand);

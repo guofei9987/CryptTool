@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use crypt_tool::{system_random, BytesBitsConverter, LCG, XorCipher};
+    use crypt_tool::{system_random, BytesBitsConverter, XorCipher, LCG};
 
     use std::thread;
     use std::time::Duration;
@@ -93,7 +93,6 @@ mod tests {
         let second = rnd.rand_range(0..1);
         assert_eq!(second, 0);
     }
-
 
     #[test]
     fn test_cipher_encode_decode() {
