@@ -2,7 +2,7 @@ use std::ops::Range;
 use std::time::SystemTime;
 
 #[derive(Clone)]
-pub struct LinearCongruentialGenerator {
+pub struct LCG {
     a: u32,
     c: u32,
     m_mask: u32,
@@ -10,7 +10,7 @@ pub struct LinearCongruentialGenerator {
     state: u32,
 }
 
-impl LinearCongruentialGenerator {
+impl LCG {
     fn from_state(state: u32) -> Self {
         let a: u32 = 1664525;
         let c: u32 = 1013904223;
@@ -68,7 +68,7 @@ pub fn system_random() -> u32 {
         .map(|d| d.as_nanos() % u32::MAX as u128)
         .unwrap_or(0) as u32;
 
-    let mut rnd = LinearCongruentialGenerator::from_state(now);
+    let mut rnd = LCG::from_state(now);
 
     rnd.generate()
 }

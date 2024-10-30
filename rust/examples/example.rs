@@ -1,10 +1,10 @@
-use crypt_tool::{system_random, BytesBitsConverter, LinearCongruentialGenerator, XorCipher};
+use crypt_tool::{system_random, BytesBitsConverter, LCG, XorCipher};
 fn example_random() {
     let rand = system_random();
     println!("A random number = {}", rand);
 
     let seed = b"a seed";
-    let mut rnd = LinearCongruentialGenerator::from_seed(seed);
+    let mut rnd = LCG::from_seed(seed);
     let rand2 = rnd.generate_u8();
     println!("Another random number from seed {}", rand2);
 

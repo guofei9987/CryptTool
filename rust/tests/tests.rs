@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use crypt_tool::{system_random, BytesBitsConverter, LinearCongruentialGenerator, XorCipher};
+    use crypt_tool::{system_random, BytesBitsConverter, LCG, XorCipher};
 
     use std::thread;
     use std::time::Duration;
@@ -17,7 +17,7 @@ mod tests {
     #[test]
     fn test_rnd_gen_u8() {
         let seed = b"another_seed";
-        let mut rnd = LinearCongruentialGenerator::from_seed(seed);
+        let mut rnd = LCG::from_seed(seed);
 
         // 生成一个 u32 随机数，然后取模 256
         let generated_u8_1 = rnd.generate_u8();
@@ -37,7 +37,7 @@ mod tests {
     fn test_rnd_zero_seed() {
         // 测试种子为全零的情况
         let seed = &[0u8; 8];
-        let mut rnd = LinearCongruentialGenerator::from_seed(seed);
+        let mut rnd = LCG::from_seed(seed);
 
         let first = rnd.generate();
         let second = rnd.generate();
@@ -48,7 +48,7 @@ mod tests {
     fn test_rnd_no_seed() {
         // 测试种子为空的情况
         let seed = &[0u8; 0];
-        let mut rnd = LinearCongruentialGenerator::from_seed(seed);
+        let mut rnd = LCG::from_seed(seed);
 
         let first = rnd.generate();
         let second = rnd.generate();
@@ -57,15 +57,15 @@ mod tests {
 
     #[test]
     fn test_generate_random_string_length() {
-        let mut rnd = LinearCongruentialGenerator::from_seed("password2".as_bytes());
+        let mut rnd = LCG::from_seed("password2".as_bytes());
         let random_str = rnd.generate_random_string(50);
         assert_eq!(random_str.len(), 50);
     }
 
     #[test]
     fn test_random_string() {
-        let mut rnd1 = LinearCongruentialGenerator::from_seed("pwd3".as_bytes());
-        let mut rnd2 = LinearCongruentialGenerator::from_seed("pwd3".as_bytes());
+        let mut rnd1 = LCG::from_seed("pwd3".as_bytes());
+        let mut rnd2 = LCG::from_seed("pwd3".as_bytes());
 
         let str1 = rnd1.generate_random_string(100);
         let str2 = rnd2.generate_random_string(100);
@@ -75,12 +75,25 @@ mod tests {
 
     #[test]
     fn test_random_string2() {
-        let mut rnd = LinearCongruentialGenerator::from_seed("密码".as_bytes());
+        let mut rnd = LCG::from_seed("密码".as_bytes());
 
         let res1 = rnd.generate_random_string(20);
         println!("生成随机字符：{}", res1);
         assert_eq!(res1, "xOHsZo7o7Sfe9eTOJsly");
     }
+
+    #[test]
+    fn test_rand_range() {
+        let mut rnd = LCG::from_seed("pwd".as_bytes());
+
+        let first = rnd.rand_range(0..20);
+        assert!(first < 20);
+        assert!(first >= 0);
+
+        let second = rnd.rand_range(0..1);
+        assert_eq!(second, 0);
+    }
+
 
     #[test]
     fn test_cipher_encode_decode() {

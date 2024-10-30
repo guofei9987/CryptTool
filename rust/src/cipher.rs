@@ -1,13 +1,13 @@
-use super::rng::LinearCongruentialGenerator;
+use super::rng::LCG;
 
 pub struct XorCipher {
-    rng: LinearCongruentialGenerator,
+    rng: LCG,
 }
 
 impl XorCipher {
     pub fn new(pwd: &[u8]) -> Self {
         Self {
-            rng: LinearCongruentialGenerator::from_seed(pwd),
+            rng: LCG::from_seed(pwd),
         }
     }
 

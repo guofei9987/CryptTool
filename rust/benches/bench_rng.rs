@@ -1,5 +1,5 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use crypt_tool::{system_random, LinearCongruentialGenerator};
+use crypt_tool::{system_random, LCG};
 use rand::rngs::StdRng;
 use rand::Rng;
 use rand::SeedableRng;
@@ -7,7 +7,7 @@ use rand::SeedableRng;
 // 使用 LinearCongruentialGenerator 生成随机数
 fn bench_custom_rng(c: &mut Criterion) {
     let seed = b"some_seed";
-    let mut rng = LinearCongruentialGenerator::from_seed(seed);
+    let mut rng = LCG::from_seed(seed);
 
     c.bench_function("custom_rng_generate", |b| {
         b.iter(|| {
