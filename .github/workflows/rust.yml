@@ -3,10 +3,10 @@ name: Rust CI
 on:
   push:
     paths:
-      - 'rust/**'
+      - 'rust/crypt_tool/**'
   pull_request:
     paths:
-      - 'rust/**'
+      - 'rust/crypt_tool/**'
 
 jobs:
   build:
