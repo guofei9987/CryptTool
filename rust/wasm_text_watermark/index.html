@@ -51,6 +51,14 @@
 
 <hr>
 
+<h2 class="top">设置密码</h2>
+<div class="top">
+    <strong>密码：</strong>
+    <input id="password" type="text" name="" value="" placeholder="请输入密码">
+</div>
+
+<hr>
+
 <h2 class="top">1. 把隐水印嵌入到明文</h2>
 <table width="100%">
     <tr>
@@ -102,8 +110,6 @@
 
 说明：<br>
 <ol>
-    <ol>
-    </ol>
     <li>作者 <a href="https://github.com/guofei9987">郭飞</a>，项目地址：<a href="https://github.com/guofei9987/text_blind_watermark">https://github.com/guofei9987/text_blind_watermark</a></li>
     <li>开源、永久免费，放心使用</li>
     <li>用法: <a href="https://www.bilibili.com/video/bv1m3411s7kT">视频详解</a></li>
@@ -118,15 +124,39 @@
     async function run() {
         await init();
 
-        // 初始化 Watermarker 实例
-        const password = "p@ssw0rd"; // 你可以根据需要修改密码
-        const watermarker = new Watermarker(password);
+        let watermarker = null; // Watermarker 实例
 
         // 获取 DOM 元素
+        const passwordInput = document.getElementById("password");
         const embedBtn = document.getElementById("embedBtn");
         const extractBtn = document.getElementById("extractBtn");
 
+        // 初始化 Watermarker 实例
+        function createWatermarker(password) {
+            try {
+                return new Watermarker(password);
+            } catch (e) {
+                console.error("初始化 Watermarker 失败:", e);
+                alert("密码无效，请重新输入！");
+                return null;
+            }
+        }
+
+        passwordInput.addEventListener("change", () => {
+            const password = passwordInput.value;
+            if (password) {
+                watermarker = createWatermarker(password);
+            } else {
+                alert("密码不能为空！");
+            }
+        });
+
         embedBtn.addEventListener("click", () => {
+            if (!watermarker) {
+                alert("请先设置密码！");
+                return;
+            }
+
             const wm = document.getElementById("wm").value;
             const baseText = document.getElementById("baseText").value;
 
@@ -150,6 +180,11 @@
         });
 
         extractBtn.addEventListener("click", () => {
+            if (!watermarker) {
+                alert("请先设置密码！");
+                return;
+            }
+
             const textWithWm = document.getElementById("text_embed2").value;
 
             if (!textWithWm) {
