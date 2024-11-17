@@ -1,6 +1,6 @@
-use crypt_tool::{system_random, BytesBitsConverter, XorCipher, LCG};
+use crypt_tool::{simple_random, BytesBitsConverter, XorCipher, LCG};
 fn example_random() {
-    let rand = system_random();
+    let rand = simple_random();
     println!("A random number = {}", rand);
 
     let seed = b"a seed";

@@ -1,5 +1,5 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use crypt_tool::{system_random, LCG};
+use crypt_tool::{simple_random, LCG};
 use rand::rngs::StdRng;
 use rand::Rng;
 use rand::SeedableRng;
@@ -18,7 +18,7 @@ fn bench_custom_rng(c: &mut Criterion) {
 
 // 使用 rand 库的 StdRng 生成随机数
 fn bench_rand_rng(c: &mut Criterion) {
-    let mut rng = StdRng::seed_from_u64(system_random() as u64);
+    let mut rng = StdRng::seed_from_u64(simple_random() as u64);
 
     c.bench_function("rand_rng_generate", |b| {
         b.iter(|| {

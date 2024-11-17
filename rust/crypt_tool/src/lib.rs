@@ -4,7 +4,7 @@ mod rng;
 
 pub use binary_converter::BytesBitsConverter;
 pub use cipher::XorCipher;
-pub use rng::{system_random, LCG};
+pub use rng::{simple_random, system_random, LCG};
 
 pub struct CryptConverter {
     xor_cipher: XorCipher,

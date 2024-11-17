@@ -1,6 +1,9 @@
 use std::ops::Range;
 use std::time::SystemTime;
 
+use std::sync::atomic::{AtomicU32, Ordering};
+use std::sync::Once;
+
 #[derive(Clone)]
 pub struct LCG {
     a: u32,
@@ -69,6 +72,25 @@ pub fn system_random() -> u32 {
         .unwrap_or(0) as u32;
 
     let mut rnd = LCG::from_state(now);
-
     rnd.generate()
+}
+
+static INIT: Once = Once::new();
+static STATE: AtomicU32 = AtomicU32::new(0);
+
+pub fn simple_random() -> u32 {
+    INIT.call_once(|| {
+        let x = 42u32;
+        let state = &x as *const u32 as u32;
+        STATE.store(state, Ordering::Relaxed);
+    });
+
+    let current_seed = STATE.load(Ordering::Relaxed);
+    let mut lcg = LCG::from_state(current_seed);
+
+    let new_state = lcg.generate();
+
+    STATE.store(new_state, Ordering::Relaxed);
+
+    new_state
 }

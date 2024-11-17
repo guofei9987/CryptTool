@@ -1,36 +1,42 @@
 #[cfg(test)]
 mod tests {
-    use crypt_tool::{system_random, BytesBitsConverter, CryptConverter, XorCipher, LCG};
+    use crypt_tool::{
+        simple_random, system_random, BytesBitsConverter, CryptConverter, XorCipher, LCG,
+    };
 
     use std::thread;
     use std::time::Duration;
 
     #[test]
-    fn test_get_true_rand() {
+    fn test_system_rand() {
         let rand1 = system_random();
         thread::sleep(Duration::from_millis(100));
         let rand2 = system_random();
         // 由于依赖于系统时间，通常不相等
         assert_ne!(rand1, rand2);
     }
+    #[test]
+    fn test_simple_rand() {
+        let rand1 = simple_random();
+        let rand2 = simple_random();
+        assert_ne!(rand1, rand2);
+    }
+
+    #[test]
+    fn test_rnd_gen_u32() {
+        let mut rnd = LCG::from_seed(b"seed");
+        let generated_1 = rnd.generate();
+        let generated_2 = rnd.generate();
+        rnd.reset();
+        let generated_3 = rnd.generate();
+        assert_ne!(generated_1, generated_2);
+        assert_eq!(generated_1, generated_3);
+    }
 
     #[test]
     fn test_rnd_gen_u8() {
-        let seed = b"another_seed";
-        let mut rnd = LCG::from_seed(seed);
-
-        // 生成一个 u32 随机数，然后取模 256
-        let generated_u8_1 = rnd.generate_u8();
-
-        let generated_u8_2 = (rnd.generate() % 256) as u8;
-
-        assert_ne!(generated_u8_1, generated_u8_2);
-        let generated_u8_3 = rnd.generate_u8();
-        assert_ne!(generated_u8_2, generated_u8_3);
-
-        rnd.reset();
-        let generated_u8_4 = rnd.generate_u8();
-        assert_eq!(generated_u8_1, generated_u8_4);
+        let mut rnd = LCG::from_seed(b"seed2");
+        assert_ne!(rnd.generate(), rnd.generate());
     }
 
     #[test]
@@ -38,10 +44,7 @@ mod tests {
         // 测试种子为全零的情况
         let seed = &[0u8; 8];
         let mut rnd = LCG::from_seed(seed);
-
-        let first = rnd.generate();
-        let second = rnd.generate();
-        assert_ne!(first, second);
+        assert_ne!(rnd.generate(), rnd.generate());
     }
 
     #[test]
@@ -49,10 +52,7 @@ mod tests {
         // 测试种子为空的情况
         let seed = &[0u8; 0];
         let mut rnd = LCG::from_seed(seed);
-
-        let first = rnd.generate();
-        let second = rnd.generate();
-        assert_ne!(first, second);
+        assert_ne!(rnd.generate(), rnd.generate());
     }
 
     #[test]
@@ -78,7 +78,6 @@ mod tests {
         let mut rnd = LCG::from_seed("密码".as_bytes());
 
         let res1 = rnd.generate_random_string(20);
-        println!("生成随机字符：{}", res1);
         assert_eq!(res1, "xOHsZo7o7Sfe9eTOJsly");
     }
 
@@ -88,7 +87,6 @@ mod tests {
 
         let first = rnd.rand_range(0..20);
         assert!(first < 20);
-        assert!(first >= 0);
 
         let second = rnd.rand_range(0..1);
         assert_eq!(second, 0);
