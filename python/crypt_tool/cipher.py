@@ -1,10 +1,10 @@
-from . import LinearCongruentialGenerator
+from . import LCG
 import copy
 
 
 class XorCipher:
     def __init__(self, pwd: bytes):
-        self.rng = LinearCongruentialGenerator.from_seed(pwd)
+        self.rng = LCG.from_seed(pwd)
 
     def apply_xor(self, data: bytes) -> bytes:
         rng = copy.copy(self.rng)

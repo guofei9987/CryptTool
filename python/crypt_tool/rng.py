@@ -1,7 +1,7 @@
 import time
 
 
-class LinearCongruentialGenerator:
+class LCG:
     def __init__(self, state: int):
         self.a = 1664525
         self.c = 1013904223
@@ -10,7 +10,7 @@ class LinearCongruentialGenerator:
         self.state = state
 
     @classmethod
-    def from_seed(cls, seed: bytes) -> 'LinearCongruentialGenerator':
+    def from_seed(cls, seed: bytes) -> 'LCG':
         state = cls.cal_state(seed)
         return cls(state)
 
@@ -42,5 +42,5 @@ class LinearCongruentialGenerator:
 def system_random() -> int:
     # 使用当前系统时间生成随机数
     now = int(time.time_ns() % (2 ** 32))
-    rnd = LinearCongruentialGenerator(now)
+    rnd = LCG(now)
     return rnd.generate()

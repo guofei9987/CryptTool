@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use crypt_tool::{system_random, BytesBitsConverter, XorCipher, LCG};
+    use crypt_tool::{system_random, BytesBitsConverter, CryptConverter, XorCipher, LCG};
 
     use std::thread;
     use std::time::Duration;
@@ -116,5 +116,16 @@ mod tests {
 
         assert_eq!(converter.bytes_to_bits(&bytes), bits);
         assert_eq!(converter.bits_to_bytes(&bits), bytes);
+    }
+
+    #[test]
+    fn test_crypt_converter() {
+        let crypt_converter = CryptConverter::new("pwd".as_bytes());
+        let bytes = vec![0, 1, 2, 255];
+
+        let bytes_encode = crypt_converter.encode(&bytes);
+
+        assert_eq!(bytes, crypt_converter.decode(&bytes_encode));
+        assert_eq!(bytes_encode, crypt_converter.encode(&bytes));
     }
 }

@@ -1,5 +1,5 @@
 import unittest
-from crypt_tool import LinearCongruentialGenerator, system_random, XorCipher, BytesBitsConverter
+from crypt_tool import LCG, system_random, XorCipher, BytesBitsConverter, CryptConverter
 import time
 
 
@@ -12,7 +12,7 @@ class TestCryptTool(unittest.TestCase):
 
     def test_rnd_gen_u8(self):
         seed = b"another_seed"
-        rnd = LinearCongruentialGenerator.from_seed(seed)
+        rnd = LCG.from_seed(seed)
         generated_u8_1 = rnd.generate_u8()
         generated_u8_2 = rnd.generate() % 256
         self.assertNotEqual(generated_u8_1, generated_u8_2)
@@ -25,22 +25,22 @@ class TestCryptTool(unittest.TestCase):
 
     def test_rnd_zero_seed(self):
         seed = bytes([0] * 8)
-        rnd = LinearCongruentialGenerator.from_seed(seed)
+        rnd = LCG.from_seed(seed)
         self.assertNotEqual(rnd.generate(), rnd.generate())
 
     def test_rnd_no_seed(self):
         seed = bytes()
-        rnd = LinearCongruentialGenerator.from_seed(seed)
+        rnd = LCG.from_seed(seed)
         self.assertNotEqual(rnd.generate(), rnd.generate())
 
     def test_generate_random_string_length(self):
-        rnd = LinearCongruentialGenerator.from_seed(b"password2")
+        rnd = LCG.from_seed(b"password2")
         random_str = rnd.generate_random_string(50)
         self.assertEqual(len(random_str), 50)
 
     def test_random_string(self):
-        rnd1 = LinearCongruentialGenerator.from_seed(b"pwd3")
-        rnd2 = LinearCongruentialGenerator.from_seed(b"pwd3")
+        rnd1 = LCG.from_seed(b"pwd3")
+        rnd2 = LCG.from_seed(b"pwd3")
         str1 = rnd1.generate_random_string(100)
         str2 = rnd2.generate_random_string(100)
         self.assertEqual(str1, str2)
@@ -53,7 +53,6 @@ class TestCryptTool(unittest.TestCase):
         self.assertEqual(data, cipher.decode(data_encodes))
         self.assertEqual(cipher.encode(data), data_encodes)
 
-
     def test_data_bin_conversion(self):
         converter = BytesBitsConverter()
         bytes_data = bytes([0, 1, 2, 255])
@@ -65,6 +64,16 @@ class TestCryptTool(unittest.TestCase):
             1, 1, 1, 1, 1, 1, 1, 1  # 255
         ])
         self.assertEqual(converter.bits_to_bytes(bits), bytes_data)
+        self.assertEqual(bits, converter.bytes_to_bits(bytes_data))
+
+    def test_crypt_converter(self):
+        crypt_converter = CryptConverter(b"pwd")
+        bytes_data = bytes([0, 1, 2, 255])
+
+        bytes_encode = crypt_converter.encode(bytes_data)
+
+        self.assertEqual(bytes_data, crypt_converter.decode(bytes_encode))
+        self.assertEqual(bytes_encode, crypt_converter.encode(bytes_data))
 
 
 if __name__ == "__main__":

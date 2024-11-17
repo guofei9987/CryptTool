@@ -1,4 +1,4 @@
-from crypt_tool import LinearCongruentialGenerator, system_random, XorCipher, BytesBitsConverter
+from crypt_tool import LCG, system_random, XorCipher, BytesBitsConverter
 
 
 def example_random():
@@ -6,7 +6,7 @@ def example_random():
     print(f"A random number = {rand}")
 
     seed = b"a seed"
-    rnd = LinearCongruentialGenerator.from_seed(seed)
+    rnd = LCG.from_seed(seed)
     rand2 = rnd.generate_u8()
     print(f"Another random number from seed = {rand2}")
 
